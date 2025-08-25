@@ -17,12 +17,19 @@
     <p>O jogo {{title}} tem {{2025 - year}} anos.</p>
     {# Esse é um comentário em jinja2 #}
 
-    <h3>Top players:</h3>
+    <h3>Está sendo jogado por:</h3>
     <ol>
         {% for player in players: %}
             <li>{{player}}</li>
         {% endfor %}
     </ol>
+    <hr>
+    <form action="{{url_for('games')}}" method="POST">
+        <label for="player">Jogador</label>
+        <input type="text" name="player">
+        <input type="submit" value="Entrar">
+    </form>
+    <hr>
 
     <h4>Console mais bem avaliado:</h4>
     {% for key, value in console.items() %}
