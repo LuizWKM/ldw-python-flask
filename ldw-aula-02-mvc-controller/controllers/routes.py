@@ -1,9 +1,10 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 
 
 def init_app(app):
     # Lista em Python(array)
     players = ['Yan', 'Ferrari', 'Valéria', 'Amanda']
+    gameList = [{'Título': 'CS 1.6', 'Ano': 2000, 'Categoria': 'FPS Online'}]
     @app.route('/')
     # Definindo a rota principal da aplicação '/
 
@@ -27,7 +28,7 @@ def init_app(app):
             # Coletando o texto da input
             if request.form.get('player'):
                 players.append(request.form.get('player'))
-        
+                return redirect(url_for('games'))        
         
         return render_template('games.html',
                             title=title,
@@ -35,3 +36,11 @@ def init_app(app):
                             category=category,
                             players=players,
                             console=console)
+    
+    @app.route('/newgame', methods=['GET', 'POST'])
+    def newgame(): #Essa é uma view function
+        if request.method == 'POST':
+            if request.form.get('title') and request.form.get('year') and request.form.get('category'):
+                gameList.append({"Título": request.form.get('title'), "Ano": request.form.get('year'), "Categoria": request.form.get('category')})
+                return redirect(url_for('newgame'))
+        return render_template('newGame.html', gameList = gameList)
