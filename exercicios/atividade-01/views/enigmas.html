@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <h2 class="mistery-title">🔮 Enigmas Misteriosos</h2>
+  <hr class="divider">
+  <p class="text-light">Cadastre novos enigmas com título, desafio e resposta...</p>
+</div>
+
+<!-- Card do formulário -->
+<div class="card shadow-lg mb-5 border-warning">
+  <div class="card-header bg-dark text-warning fw-bold">Adicionar Enigma</div>
+  <div class="card-body">
+    <form method="POST">
+      <input type="text" name="titulo" placeholder="Título do enigma..." class="form-control mb-3">
+      <input type="text" name="pergunta" placeholder="Digite o enigma..." class="form-control mb-3">
+      <input type="text" name="resposta" placeholder="Digite a resposta..." class="form-control mb-3">
+      <button class="btn btn-warning w-100">Cadastrar</button>
+    </form>
+  </div>
+</div>
+
+{% if enigmas %}
+  <div class="row">
+    {% for e in enigmas %}
+      <div class="col-md-6">
+        <div class="card enigma-card mb-4 shadow">
+          <div class="card-body">
+            <!-- Agora mostra o título que o usuário digitou -->
+            <h5 class="card-title text-info">✨ {{ e.titulo }}</h5>
+            <p class="card-text"><strong>Pergunta:</strong> {{ e.pergunta }}</p>
+
+            <!-- Botão para mostrar/ocultar resposta -->
+            <button class="btn btn-outline-info btn-sm mt-2" type="button" 
+                    data-bs-toggle="collapse" data-bs-target="#resposta{{ loop.index }}">
+              Revelar Resposta
+            </button>
+
+            <!-- Resposta escondida -->
+            <div class="collapse mt-3" id="resposta{{ loop.index }}">
+              <div class="card card-body bg-dark text-light border-info">
+                <strong>Resposta:</strong> {{ e.resposta }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="no-enigma text-center">⚠ Nenhum enigma cadastrado ainda...</p>
+
+{% endif %}
+{% endblock %}
