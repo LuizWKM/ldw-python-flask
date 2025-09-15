@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Enigmas Misteriosos</h2>
+    <hr>
+    <div class="row">
+        {% for question in questions %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ question.question|safe }}</h5>
+                    <p class="card-text">
+                        <strong>Alternativas:</strong>
+                        <ul>
+                            {% for answer in question.all_answers %}
+                            <li>{{ answer }}</li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                    <a href="{{ url_for('trivia_detail', id=loop.index0) }}" class="btn btn-dark">Ver Resposta</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

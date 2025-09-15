@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mt-5">
+
+    <!-- Título com animação e efeito -->
+    <h1 class="mistery-title text-glow">🌙 Bem-vindo ao Mundo dos Mistérios</h1>
+    <hr class="divider">
+
+    <!-- Subtítulo -->
+    <p class="lead subtitle">
+        Explore enigmas indecifráveis, lendas esquecidas e segredos nunca revelados.
+    </p>
+
+    <!-- Botões de ação -->
+    <div class="mt-4 d-flex justify-content-center flex-wrap">
+        <a href="{{ url_for('enigmas_page') }}" class="btn btn-outline-warning btn-lg mx-2 my-2 px-4 shadow-lg">
+            🔮 Enigmas
+        </a>
+        <a href="{{ url_for('lendas_page') }}" class="btn btn-outline-danger btn-lg mx-2 my-2 px-4 shadow-lg">
+            📜 Lendas
+        </a>
+    </div>
+</div>
+{% endblock %}
