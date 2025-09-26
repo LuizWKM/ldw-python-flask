@@ -1,27 +1,20 @@
-# Importando o Flask
-from flask import Flask, render_template
-# Importando o PyMySQL
+from flask import Flask
 import pymysql
-# Importando as rotas que estão nos controllers
 from controllers import routes
-# Importando os models
 from models.database import db
 
-# Carregando o Flask na variável app
+# Criando a aplicação Flask
 app = Flask(__name__, template_folder='views')
 
-# Chamando as rotas
+# Inicializa as rotas
 routes.init_app(app)
 
-# Define o nome do banco de dados
-DB_NAME = 'thegames'
-# Configura o Flask com o banco definido
+DB_NAME = 'mysteries'
 app.config['DATABASE_NAME'] = DB_NAME
 
-# Passando o endereço do banco ao Flask
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://root@localhost/{DB_NAME}'
 
-# Iniciando o servidor no localhost, porta 5000, modo de depuração ativado
+# Inicia o servidor
 if __name__ == '__main__':
     # Criando os dados de conexão:
     connection = pymysql.connect(host='localhost',
@@ -50,4 +43,4 @@ if __name__ == '__main__':
         db.create_all()
 
     # Inicializando a aplicação Flask
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)

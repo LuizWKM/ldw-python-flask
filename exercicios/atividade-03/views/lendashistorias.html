@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mistery-title text-center mb-3">🏺 Verificação de Lendas</h2>
+    <hr class="divider">
+
+    <details class="mb-4">
+        <summary class="btn btn-outline-danger fw-bold">[ + Cadastrar nova lenda ]</summary>
+        <div class="col-md-8 col-lg-6 mx-auto mt-3">
+            <form action="{{url_for('lendasHistorias')}}" method="POST" class="card p-3 shadow-lg">
+                <input type="text" name="tituloL" placeholder="Título da lenda" class="form-control mb-2" required>
+                <input type="text" name="origem" placeholder="Origem" class="form-control mb-2" required>
+                <textarea name="descricao" placeholder="Descrição" class="form-control mb-3" rows="3" required></textarea>
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Cadastrar" class="btn btn-success px-4">
+                    <input type="reset" value="Limpar" class="btn btn-danger px-4">
+                </div>
+            </form>
+        </div>
+    </details>
+
+    <h5 class="text-glow mt-4 mb-3">Histórias de lendas:</h5>
+    <div class="table-responsive">
+        <table class="table lenda-table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="min-width:120px;">Título</th>
+                    <th style="min-width:100px;">Origem</th>
+                    <th style="min-width:220px;">Descrição</th>
+                    <th colspan="2" class="text-center" style="min-width:120px;">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if lendashistorias.items %}
+                    {% for lenda in lendashistorias.items %}
+                    <tr>
+                        <td>{{ lenda.tituloL }}</td>
+                        <td>{{ lenda.origem }}</td>
+                        <td class="desc-cell">{{ lenda.descricao }}</td>
+                        <td class="text-center">
+                            <a class="btn btn-warning btn-sm" href="{{url_for('lendaEdit', id=lenda.id)}}">Editar</a>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-danger btn-sm"
+                               href="{{url_for('lendasHistorias', id=lenda.id)}}"
+                               onclick="return confirm('Deseja mesmo excluir a lenda {{lenda.tituloL}}?')">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="no-lenda text-center py-4">
+                            ⚠ Nenhuma lenda cadastrada ainda...
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        {% if lendashistorias.has_prev %}
+            <a href="{{url_for('lendasHistorias', page=lendashistorias.prev_num)}}" class="btn btn-outline-light mx-2">&lt;&lt; Anterior</a>
+        {% endif %}
+        {% if lendashistorias.has_next %}
+            <a href="{{url_for('lendasHistorias', page=lendashistorias.next_num)}}" class="btn btn-outline-light mx-2">Próximo &gt;&gt;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

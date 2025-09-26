@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mistery-title text-center mb-3">🧩 Perguntas de Enigmas</h2>
+    <hr class="divider">
+
+    <details class="mb-4">
+        <summary class="btn btn-outline-warning fw-bold">[ + Cadastrar novo enigma ]</summary>
+        <div class="col-md-6 mx-auto mt-3">
+            <form action="{{url_for('enigmasPerguntas')}}" method="POST" class="card p-3 shadow-lg">
+                <input type="text" name="tituloE" placeholder="Título do enigma" class="form-control mb-2" required>
+                <input type="text" name="enigma" placeholder="Enigma" class="form-control mb-2" required>
+                <input type="text" name="respostaE" placeholder="Resposta do enigma" class="form-control mb-2" required>
+                <select name="lenda_id" class="form-select mb-3" required>
+                    <option value="" selected disabled>Selecione uma lenda...</option>
+                    {% for lenda in lendas %}
+                        <option value="{{lenda.id}}">{{lenda.tituloL}}</option>
+                    {% endfor %}
+                </select>
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Cadastrar" class="btn btn-success px-4">
+                    <input type="reset" value="Limpar" class="btn btn-danger px-4">
+                </div>
+            </form>
+        </div>
+    </details>
+
+    <h5 class="text-glow mt-4 mb-3">Lista de enigmas:</h5>
+    <div class="table-responsive">
+        <table class="table lenda-table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 50px;"></th>
+                    <th>Título</th>
+                    <th>Enigma</th>
+                    <th>Resposta</th>
+                    <th>Lenda</th>
+                    <th colspan="2" class="text-center">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if enigmasperguntas.items %}
+                    {% for e in enigmasperguntas.items %}
+                    <tr>
+                        <td>{{e.tituloE}}</td>
+                        <td>{{e.enigma}}</td>
+                        <td>{{e.respostaE}}</td>
+                        <td>{{e.lenda.tituloL}}</td>
+                        <td class="text-center" style="width: 90px;">
+                            <a class="btn btn-warning btn-sm" href="{{url_for('enigmaEdit', id=e.id)}}">Editar</a>
+                        </td>
+                        <td class="text-center" style="width: 90px;">
+                            <a class="btn btn-danger btn-sm" href="{{url_for('enigmasPerguntas', id=e.id)}}" onclick="return confirm('Deseja mesmo excluir o enigma {{e.tituloE}}?')">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="no-lenda text-center py-4">
+                            ⚠ Nenhum enigma cadastrado ainda...
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        {% if enigmasperguntas.has_prev %}
+            <a href="{{url_for('enigmasPerguntas', page=enigmasperguntas.prev_num)}}" class="btn btn-outline-light mx-2">&lt;&lt; Anterior</a>
+        {% endif %}
+        {% if enigmasperguntas.has_next %}
+            <a href="{{url_for('enigmasPerguntas', page=enigmasperguntas.next_num)}}" class="btn btn-outline-light mx-2">Próximo &gt;&gt;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

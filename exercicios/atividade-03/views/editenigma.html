@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 m-auto">
+    <h3 style="text-align: center;">Editar lenda:</h3><br>
+    <form action="{{url_for('enigmaEdit', id=e.id)}}" method="POST">
+        <input type="text" name="tituloE" class="form-control" value="{{e.tituloE}}" required>
+        <input type="text" name="enigma" value="{{e.enigma}}" class="form-control" required>
+        <input type="text" name="respostaE" value="{{e.respostaE}}" class="form-control" required>
+        <select name="lenda_id" class="form-select" required>
+            {% for lenda in lendas %}
+                <option value="{{lenda.id}}" {%if (e.lenda.id==lenda.id) %} selected {% endif %}>
+                    {{lenda.tituloL}}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <a href="{{url_for('enigmaEdit', id=e.id)}}" onclick="return confirm('Confirma as alterações?')"><input
+                type="submit" value="Alterar" class="btn btn-warning"></a>
+        <a href="{{url_for('enigmasPerguntas')}}"><input type="button" value="Cancelar" class="btn btn-danger"></a>
+    </form>
+</div>
+{% endblock content %}
